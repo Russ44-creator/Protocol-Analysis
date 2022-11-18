@@ -19,16 +19,22 @@ array=(${Current_Environment//-/ })
 extension=${array[-1]}
 
 # echo $extension
-if [ $extension = "azure" ]
-then
-    echo "azure"
-elif [ $extension = "sw64" ]
+# if [ $extension = "azure" ]
+# then
+#     echo "azure"
+# el
+
+if [ $extension = "sw64" ]
 then
     echo "sw64"
     DPDK_PATH=$DPDK_SW_PATH
 elif [ $extension = "aarch64" ]
 then 
     echo "aarch64"
+    DPDK_PATH=$DPDK_ARM_PATH
+elif [ $extension = "aarch64" ]
+then 
+    echo "x86"
     DPDK_PATH=$DPDK_ARM_PATH
 fi
 
