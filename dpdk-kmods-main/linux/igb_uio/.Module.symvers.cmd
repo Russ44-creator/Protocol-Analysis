@@ -1,0 +1,1 @@
+cmd_/home/dawnlake/workspace/dpdk_workspace/dpdk-kmods-main/linux/igb_uio/Module.symvers := sed 's/ko$$/o/' /home/dawnlake/workspace/dpdk_workspace/dpdk-kmods-main/linux/igb_uio/modules.order | scripts/mod/modpost -m -a   -o /home/dawnlake/workspace/dpdk_workspace/dpdk-kmods-main/linux/igb_uio/Module.symvers -e -i Module.symvers   -T -
