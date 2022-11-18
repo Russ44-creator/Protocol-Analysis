@@ -1,0 +1,21 @@
+DPDK is a set of libraries and drivers for fast packet processing.
+It needs UIO or VFIO support.
+
+If you use the UIO, you need select configure CONFIG_UIO
+CONFIG_UIO_PCI_GENERIC in the kernel.
+If you use the VFIO, you need select configure CONFIG_IOMMU_SUPPORT
+CONFIG_SUNWAY_IOMMU CONFIG_VFIO CONFIG_VFIO_PCI in the kernel. Add
+vfio_iommu_type1.allow_unsafe_interrupts=1 in cmdline.
+
+DPDK Deployment:
+
+1. Compiling and installition
+$ meson build
+$ cd build
+$ ninja install
+
+3. Set search path for dynamic libraries
+(1) Append the path of lib at the end of this file: /etc/ld.so.conf.
+The path of lib should look like "/[DPDK Path]/build/lib".
+(2) After doing this, execute the command to synchronize the dynamic libraries:
+$ /sbin/ldconfig -v
