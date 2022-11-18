@@ -141,7 +141,8 @@ Protocol_Analysis_install()
 
 insmod_uio()
 {
-    cd igb_uio_PATH
+    echo "uio路径:"$igb_uio_PATH
+    cd $igb_uio_PATH
     make all
     modprobe uio
     insmod igb_uio.ko
@@ -165,20 +166,21 @@ then
 fi
 
 
-if [ $0 = "-install" ]
+if [ $1 = "-install" ]
 then
     dpdk_install
     Protocolstack_install
     yaml_install
     Protocol_Analysis_install
-elif [ $0 = "-uninstall" ]
+elif [ $1 = "-uninstall" ]
 then
     dpdk_uninstall
     Protocolstack_uninstall
     yaml_unstall
-elif [ $0 = "insmod" ]
+elif [ $1 = "insmod" ]
 then
     insmod_uio
 else
+    echo $1
     print_usage
 fi
