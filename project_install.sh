@@ -32,8 +32,7 @@ elif [ $extension = "aarch64" ]
 then 
     echo "aarch64"
     DPDK_PATH=$DPDK_ARM_PATH
-elif [ $extension = "aarch64" ]
-then 
+else
     echo "x86"
     DPDK_PATH=$DPDK_ARM_PATH
 fi
@@ -172,18 +171,18 @@ then
 fi
 
 
-if [ $1 = "-install" ]
+if [ $1x = "-install"x ]
 then
     dpdk_install
     Protocolstack_install
     yaml_install
     Protocol_Analysis_install
-elif [ $1 = "-uninstall" ]
+elif [ $1x = "-uninstall"x ]
 then
     dpdk_uninstall
     Protocolstack_uninstall
     yaml_unstall
-elif [ $1 = "insmod" ]
+elif [ $1x = "insmod"x ]
 then
     insmod_uio
 else
