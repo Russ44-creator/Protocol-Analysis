@@ -115,7 +115,7 @@ yaml_install()
     cmake ..
     make
     make install
-    echo "$str""yaml编译安装完成""$str
+    echo "$str""yaml编译安装完成""$str"
 }
 
 yaml_unstall()
@@ -132,7 +132,7 @@ yaml_unstall()
         rm -rf build
     fi
 
-    echo "$str""yaml卸载完成""$str
+    echo "$str""yaml卸载完成""$str"
 }
 
 Protocol_Analysis_install()
