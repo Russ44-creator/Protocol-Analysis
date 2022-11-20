@@ -81,7 +81,7 @@ Protocolstack_install()
     chmod 777 ./configure-linux.sh
     ./configure-linux.sh --dpdk --dpdk-home $DPDK_PATH
     # modify PcapPlusPlus.mk
-    sed -i "s@libdpdk@$LIBDPDK/g" mk/PcapPlusPlus.mk 
+    sed -i "s@libdpdk@$LIBDPDK@g" mk/PcapPlusPlus.mk 
 
     make clean
     make all
