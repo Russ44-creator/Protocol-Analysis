@@ -9,8 +9,8 @@ def connect_mongo():
     collection = db['testdemo']
     return collection
     #集合
-def insertToMongoDB(set1):
-    with open('test1.csv','r',encoding='utf-8') as csvfile:
+def insertToMongoDB(set1,datafile):
+    with open(datafile,'r',encoding='utf-8') as csvfile:
         # Call the DictReader function in csv to directly obtain the data in the form of a dictionary
         reader = csv.DictReader(csvfile)
         csv_data = []
@@ -35,6 +35,6 @@ def insertToMongoDB(set1):
 if __name__=='__main__':
     print(time.strftime('%Y-%m-%d %H:%M:%S'))#for calculating time
     set1 = connect_mongo()
-    insertToMongoDB(set1)
+    insertToMongoDB(set1,"test1.csv")
     print(time.strftime('%Y-%m-%d %H:%M:%S'))
 
