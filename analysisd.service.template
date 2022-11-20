@@ -1,0 +1,9 @@
+[Unit]
+Description=Protocol Analysis Daemon
+
+[Service]
+ExecStart=<execute-start> <config-file>
+Type=simple
+KillMode=control-group
+Restart=on-failure
+RestartSec=10s
