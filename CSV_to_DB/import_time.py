@@ -1,15 +1,48 @@
 import time
-
+import pandas as pd
 from watchdog.events import *
 from watchdog.observers import Observer
-
+from sqlalchemy import create_engine, types
 import os
 import configparser
 
+from pymongo import MongoClient
+import csv
+
 import re
 
-import CSV_to_DB/DBtest/main.py
-import CSV_to_DB/DBtest_MongoDB/main.py
+
+import pymysql
+
+def connect_mongo():
+    # mongo_uri = 'mongodb://user_name:password@host:port/Validate the database'
+    # client = pymongo.MongoClient(mongo_uri, readPreference='write as required')
+    client = MongoClient('127.0.0.1', 27017)
+    db = client.test
+    collection = db['test1']
+    return collection
+    #集合
+def insertToMongoDB(set1,datafile):
+    with open(datafile,'r',encoding='utf-8') as csvfile:
+        # Call the DictReader function in csv to directly obtain the data in the form of a dictionary
+        reader = csv.DictReader(csvfile)
+        csv_data = []
+        # Create a counts to count how many pieces of data have been added
+        counts = 0
+        index = 1
+        for each in reader:
+            csv_data.append(each)
+            if index==10000:#Write to MongoDB after 10,000
+                set1.insert_many(csv_data)
+                csv_data.clear()
+                index = 0
+                print("successfully added" + str(counts) + "data")
+            counts+=1
+            index+=1
+        if len(csv_data)>0:#remain data
+            set1.insert_many(csv_data)
+            print("Successfully added %s data"%len(csv_data))
+
 
 # 读取配置文件
 def getConfig(filename, section, option):
@@ -34,6 +67,9 @@ def getConfig(filename, section, option):
     conf.read(configPath)
     config = conf.get(section, option)
     return config
+
+
+
 
 
 
@@ -66,6 +102,8 @@ class FileEventHandler(FileSystemEventHandler):
     #         print("file modified:{0}".format(event.src_path))
 
     def on_closed(self, event):
+        pymysql.install_as_MySQLdb()
+        engine = create_engine('mysql://root:q@localhost:3306/test')
 
         if event.is_directory:
             print("directory closed:{0}".format(event.src_path))
@@ -99,7 +137,7 @@ class FileEventHandler(FileSystemEventHandler):
 if __name__ == "__main__":
     observer = Observer()
     event_handler = FileEventHandler()
-    observer.schedule(event_handler, "/workspaces/SW_ARM_DPDK/CSV_to_DB/data/", True)
+    observer.schedule(event_handler, "/home/dawnlake/workspace/SW_ARM_DPDK/CSV_to_DB/data", True)
     observer.start()
     try:
         while True:

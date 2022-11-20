@@ -32,9 +32,9 @@ def insertToMongoDB(set1,datafile):
 
 
             
-if __name__=='__main__':
-    print(time.strftime('%Y-%m-%d %H:%M:%S'))#for calculating time
-    set1 = connect_mongo()
-    insertToMongoDB(set1,"test1.csv")
-    print(time.strftime('%Y-%m-%d %H:%M:%S'))
+# if __name__=='__main__':
+#     print(time.strftime('%Y-%m-%d %H:%M:%S'))#for calculating time
+#     set1 = connect_mongo()
+#     insertToMongoDB(set1,"test1.csv")
+#     print(time.strftime('%Y-%m-%d %H:%M:%S'))
 

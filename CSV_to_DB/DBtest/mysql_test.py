@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, types
 import pymysql
 pymysql.install_as_MySQLdb()
 
-engine = create_engine('mysql://root:database@localhost:3306/test')
+engine = create_engine('mysql://root:q@localhost:3306/test')
 
 df = pd.read_csv("test1.csv")
 print(df)
