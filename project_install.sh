@@ -1,48 +1,46 @@
 #!/bin/bash	
 
+BASE_PATH=$(pwd)
 SOURCE_PATH=$(cd $(dirname $0); pwd)
-DPDK_SW_PATH=$SOURCE_PATH"/"
-DPDK_ARM_PATH=$SOURCE_PATH"/DPDK/dpdk-arm"
-Protocolstack_PATH=$SOURCE_PATH"/PcapPlusPlus"
-Yaml_PATH=$SOURCE_PATH"/yaml-cpp-yaml-cpp-0.7.0"
-igb_uio_PATH=$SOURCE_PATH"/dpdk-kmods-main/linux/igb_uio"
+DPDK_SW_PATH="$BASE_PATH/DPDK/dpdk-v21.05-sw64"
+DPDK_ARM_PATH="$BASE_PATH/DPDK/dpdk-arm"
+DPDK_X86_PATH="$BASE_PATH/DPDK/dpdk-arm"
+Protocolstack_PATH="$BASE_PATH/PcapPlusPlus"
+Protocol_Analysis_PATH="$BASE_PATH/Protocol_Analysis"
+Yaml_PATH="$BASE_PATH/yaml-cpp-yaml-cpp-0.7.0"
+igb_uio_PATH="$BASE_PATH/dpdk-kmods-main/linux/igb_uio"
+SERVICE_PATH="/etc/systemd/system"
 str="========================"
 
+LIBDPDK="libdpdk"
 
+ARCH=$(uname -m)
 
-
-
-#判断当前环境
-Current_Environment=$(uname -r)
-echo $Current_Environment
-array=(${Current_Environment//-/ })  
-extension=${array[-1]}
-
-# echo $extension
-# if [ $extension = "azure" ]
-# then
-#     echo "azure"
-# el
-
-if [ $extension = "sw64" ]
+if [ $ARCH == "x86_64" ]
 then
-    echo "sw64"
-    DPDK_PATH=$DPDK_SW_PATH
-elif [ $extension = "aarch64" ]
-then 
-    echo "aarch64"
-    DPDK_PATH=$DPDK_ARM_PATH
-else
-    echo "x86"
-    DPDK_PATH=$DPDK_ARM_PATH
-fi
+    echo "on x86_64"
+    DPDK_PATH=$DPDK_X86_PATH
 
+elif [ $ARCH == "arm_64" ]
+then
+    echo "on arm_64"
+    DPDK_PATH=$DPDK_ARM_PATH
+
+elif [ $ARCH == "sw_64" ]
+then
+    echo "on sw_64"
+    DPDK_PATH=$DPDK_SW_PATH
+    LIBDPDK="/usr/local/lib64/pkgconfig/libdpdk.pc"
+else
+   echo "unsupported arch."
+   exit 1
+fi
 
 
 dpdk_install()
 {
     echo "$str""编译安装dpdk""$str"
-    cd DPDK_PATH
+    cd $DPDK_PATH
     if [ -d "build" ]
     then
         cd build
@@ -50,11 +48,11 @@ dpdk_install()
         cd ..
         rm -rf build
     fi
-    if [$extension = "aarch64"]
+    if [$ARCH == "sw_64" ]
     then
-        meson -Dmachine=generic build
-    else
         meson build
+    else
+        meson -Dmachine=generic build
     fi
     cd build
     ninja && ninja install
@@ -81,7 +79,10 @@ Protocolstack_install()
     echo "$str""编译安装Protocolstack""$str"
     cd $Protocolstack_PATH
     chmod 777 ./configure-linux.sh
-    ./configure-linux.sh n y $DPDK_PATH
+    ./configure-linux.sh --dpdk --dpdk-home $DPDK_PATH
+    # modify PcapPlusPlus.mk
+    sed -i "s@libdpdk@$LIBDPDK@g" mk/PcapPlusPlus.mk 
+
     make clean
     make all
     make install
@@ -138,6 +139,7 @@ yaml_unstall()
 Protocol_Analysis_install()
 {
     echo "$str""编译安装Protocol_Analysis""$str"
+    cp $Protocolstack_PATH/mk/PcapPlusPlus.mk /usr/local/etc/
     cd $Protocol_Analysis_PATH
     make clean
     make all
@@ -151,6 +153,24 @@ insmod_uio()
     make all
     modprobe uio
     insmod igb_uio.ko
+}
+
+service_install()
+{
+    echo "$str""安装service""$str"
+    cp $BASE_PATH/analysisd.service.template $BASE_PATH/analysisd.service
+    sed -i "s@<execute-start>@$Protocol_Analysis_PATH/build/ProtocolAnalysis@g" $BASE_PATH/analysisd.service
+    sed -i "s@<config-file>@$Protocol_Analysis_PATH/config.ini@g" $BASE_PATH/analysisd.service
+    
+    mv $BASE_PATH/analysisd.service ${SERVICE_PATH}/
+    echo "$str""service安装完成""$str"
+}
+
+service_uninstall()
+{
+    echo "$str""卸载service""$str"
+    sudo rm ${SERVICE_PATH}/analysisd.service
+    echo "$str""service卸载完成""$str"
 }
 
 print_usage()
@@ -177,11 +197,13 @@ then
     Protocolstack_install
     yaml_install
     Protocol_Analysis_install
+    service_install
 elif [ $1x = "-uninstall"x ]
 then
     dpdk_uninstall
     Protocolstack_uninstall
     yaml_unstall
+    service_uninstall
 elif [ $1x = "insmod"x ]
 then
     insmod_uio
