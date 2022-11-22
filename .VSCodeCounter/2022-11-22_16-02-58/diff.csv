@@ -1,0 +1,7 @@
+"filename", "language", "YAML", "comment", "blank", "total"
+"/root/SW_ARM_DPDK/PcapPlusPlus/3rdParty/MemPlumber/MemPlumber/appveyor.yml", "YAML", -1, 1, 0, 0
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/.clang-format", "YAML", -1, 1, 0, 0
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/test/gtest-1.10.0/.clang-format", "YAML", -2, 2, 0, 0
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/test/gtest-1.10.0/.travis.yml", "YAML", -13, 13, 0, 0
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/test/gtest-1.10.0/appveyor.yml", "YAML", -9, 9, 0, 0
+"Total", "-", -26, 26, 0, 0

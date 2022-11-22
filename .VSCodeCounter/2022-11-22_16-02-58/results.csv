@@ -1,0 +1,12 @@
+"filename", "language", "YAML", "CMake", "comment", "blank", "total"
+"/root/SW_ARM_DPDK/PcapPlusPlus/3rdParty/MemPlumber/MemPlumber/.travis.yml", "YAML", 15, 0, 0, 6, 21
+"/root/SW_ARM_DPDK/PcapPlusPlus/3rdParty/MemPlumber/MemPlumber/appveyor.yml", "YAML", 36, 0, 1, 6, 43
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/.clang-format", "YAML", 45, 0, 1, 2, 48
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/.travis.yml", "YAML", 34, 0, 0, 4, 38
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/appveyor.yml", "YAML", 25, 0, 0, 4, 29
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/docs/_config.yml", "YAML", 1, 0, 0, 0, 1
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/test/gtest-1.10.0/.clang-format", "YAML", 2, 0, 2, 1, 5
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/test/gtest-1.10.0/.travis.yml", "YAML", 54, 0, 13, 7, 74
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/test/gtest-1.10.0/appveyor.yml", "YAML", 125, 0, 9, 21, 155
+"/root/SW_ARM_DPDK/yaml-cpp-yaml-cpp-0.7.0/test/gtest-1.10.0/googletest/cmake/internal_utils.cmake", "CMake", 0, 337, 0, 22, 359
+"Total", "-", 337, 337, 26, 73, 773

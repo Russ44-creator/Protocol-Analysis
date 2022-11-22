@@ -25,11 +25,25 @@ then
     echo "/usr/local/lib/x86_64-linux-gnu/" >> /etc/ld.so.conf
     ldconfig
 
-elif [ $ARCH == "arm_64" ]
+    mkdir -p /dev/hugepages
+    mountpoint -q /dev/hugepages || mount -t hugetlbfs nodev /dev/hugepages
+    echo 1024 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages
+
+elif [ $ARCH == "aarch64" ]
 then
     echo "on arm_64"
     DPDK_PATH=$DPDK_ARM_PATH
+    echo "/usr/local/lib64" >> /etc/ld.so.conf
+    mkdir -p /dev/hugepages
+    mountpoint -q /dev/hugepages || mount -t hugetlbfs nodev /dev/hugepages
+    echo 64 > /sys/devices/system/node/node0/hugepages/hugepages-524288kB/nr_hugepages
+    echo 64 > /sys/devices/system/node/node1/hugepages/hugepages-524288kB/nr_hugepages
+    echo 64 > /sys/devices/system/node/node2/hugepages/hugepages-524288kB/nr_hugepages
+    echo 64 > /sys/devices/system/node/node3/hugepages/hugepages-524288kB/nr_hugepages
+    echo 64 > /sys/devices/system/node/node4/hugepages/hugepages-524288kB/nr_hugepages
+    echo 64 > /sys/devices/system/node/node5/hugepages/hugepages-524288kB/nr_hugepages
 
+    ldconfig
 elif [ $ARCH == "sw_64" ]
 then
     echo "on sw_64"
@@ -52,14 +66,14 @@ dpdk_install()
         cd ..
         rm -rf build
     fi
-    if [$ARCH == "sw_64" ]
+    if [ $ARCH == "sw_64" ]
     then
         meson build
     else
         meson -Dmachine=generic build
     fi
     cd build
-    ninja -j8 && ninja install
+    ninja -j32 && ninja install
     echo "$str""dpdk编译安装完成""$str"
 
 }
@@ -75,7 +89,7 @@ dpdk_uninstall()
         cd ..
         rm -rf build
     fi
-    echo "$str""dpdk卸载成功""$str"
+    echo "$str""dpdk卸载成功""$str"               
 }
 
 Protocolstack_install()
@@ -83,9 +97,17 @@ Protocolstack_install()
     echo "$str""编译安装Protocolstack""$str"
     cd $Protocolstack_PATH
     chmod 777 ./configure-linux.sh
+    if [ $ARCH != "x86_64" ]
+    then
+        sed -i 's/-msse -msse2 -msse3/ /g'  mk/PcapPlusPlus.mk.dpdk
+    fi
     ./configure-linux.sh --dpdk --dpdk-home $DPDK_PATH
     # modify PcapPlusPlus.mk
     sed -i "s@libdpdk@$LIBDPDK@g" mk/PcapPlusPlus.mk 
+
+    
+
+    
 
     make clean
     make all -j8
@@ -118,7 +140,7 @@ yaml_install()
     mkdir build
     cd build
     cmake ..
-    make
+    make -j32
     make install
     echo "$str""yaml编译安装完成""$str"
 }
@@ -145,8 +167,14 @@ Protocol_Analysis_install()
     echo "$str""编译安装Protocol_Analysis""$str"
     cp $Protocolstack_PATH/mk/PcapPlusPlus.mk /usr/local/etc/
     cd $Protocol_Analysis_PATH
+    if [ $ARCH != "x86_64" ]
+    then
+        sed -i 's/-static-libstdc++/-lstdc++/g'  Makefile
+    fi
     make clean
     make all
+
+    
     echo "$str""Protocol_Analysis编译安装完成""$str"
 }
 
@@ -208,7 +236,7 @@ then
     Protocolstack_uninstall
     yaml_unstall
     service_uninstall
-elif [ $1x = "insmod"x ]
+elif [ $1x = "-insmod"x ]
 then
     insmod_uio
 else
