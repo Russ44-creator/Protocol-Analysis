@@ -50,3 +50,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Protocol_Analysis/build/*
+Protocol_Analysis/debug_data_output/*
+Protocol_Analysis/debug_log_output/*

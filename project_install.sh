@@ -22,6 +22,8 @@ if [ $ARCH == "x86_64" ]
 then
     echo "on x86_64"
     DPDK_PATH=$DPDK_X86_PATH
+    echo "/usr/local/lib/x86_64-linux-gnu/" >> /etc/ld.so.conf
+    ldconfig
 
 elif [ $ARCH == "arm_64" ]
 then
@@ -161,8 +163,8 @@ service_install()
 {
     echo "$str""安装service""$str"
     cp $BASE_PATH/analysisd.service.template $BASE_PATH/analysisd.service
-    sed -i "s@<execute-start>@$Protocol_Analysis_PATH/build/ProtocolAnalysis@g" $BASE_PATH/analysisd.service
-    sed -i "s@<config-file>@$Protocol_Analysis_PATH/config.ini@g" $BASE_PATH/analysisd.service
+    sed -i "s@<execute-start>@$Protocol_Analysis_PATH/build/Protocol_Analysis@g" $BASE_PATH/analysisd.service
+    # sed -i "s@<config-file>@$Protocol_Analysis_PATH/config.ini@g" $BASE_PATH/analysisd.service
     
     mv $BASE_PATH/analysisd.service ${SERVICE_PATH}/
     echo "$str""service安装完成""$str"
