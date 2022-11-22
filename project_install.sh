@@ -48,7 +48,7 @@ elif [ $ARCH == "sw_64" ]
 then
     echo "on sw_64"
     DPDK_PATH=$DPDK_SW_PATH
-    LIBDPDK="/usr/local/lib64/pkgconfig/libdpdk.pc"
+    LIBDPDK="/usr/local/lib64/pkgconfig/libdpdk-lib.pc"
 else
    echo "unsupported arch."
    exit 1
@@ -100,6 +100,7 @@ Protocolstack_install()
     if [ $ARCH != "x86_64" ]
     then
         sed -i 's/-msse -msse2 -msse3/ /g'  mk/PcapPlusPlus.mk.dpdk
+        sed -i 's/-msse -msse2 -msse3 -mssse3/ /g'  Pcap++/Makefile
     fi
     ./configure-linux.sh --dpdk --dpdk-home $DPDK_PATH
     # modify PcapPlusPlus.mk
