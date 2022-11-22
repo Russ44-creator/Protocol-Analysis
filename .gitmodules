@@ -1,6 +1,7 @@
 [submodule "Protocol_Analysis"]
 	path = Protocol_Analysis
-	url = https://github.com/hanze5/Protocol_Analysis
+	url = https://gitee.com/zhang-hanze/Protocol_Analysis.git
+
 [submodule "PcapPlusPlus"]
 	path = PcapPlusPlus
-	url = https://github.com/ycyaoxdu/PcapPlusPlus.git
+	url = https://gitee.com/yuchenyao/PcapPlusPlus.git

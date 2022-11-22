@@ -1,5 +1,7 @@
 #!/bin/bash	
 
+# export LD_LIBRARY_PATH=/usr/local/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH
+
 BASE_PATH=$(pwd)
 SOURCE_PATH=$(cd $(dirname $0); pwd)
 DPDK_SW_PATH="$BASE_PATH/DPDK/dpdk-v21.05-sw64"
@@ -55,7 +57,7 @@ dpdk_install()
         meson -Dmachine=generic build
     fi
     cd build
-    ninja && ninja install
+    ninja -j8 && ninja install
     echo "$str""dpdk编译安装完成""$str"
 
 }
@@ -84,7 +86,7 @@ Protocolstack_install()
     sed -i "s@libdpdk@$LIBDPDK@g" mk/PcapPlusPlus.mk 
 
     make clean
-    make all
+    make all -j8
     make install
     echo "$str""Protocolstack编译安装完成""$str"
 }

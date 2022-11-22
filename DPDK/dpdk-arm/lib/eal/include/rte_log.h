@@ -59,7 +59,7 @@ extern "C" {
 #define RTE_LOGTYPE_USER6     29 /**< User-defined log type 6. */
 #define RTE_LOGTYPE_USER7     30 /**< User-defined log type 7. */
 #define RTE_LOGTYPE_USER8     31 /**< User-defined log type 8. */
-
+#define RTE_LOGTYPE_APPLICATION     33 /**< User-defined log type 8. */
 /** First identifier for extended logs */
 #define RTE_LOGTYPE_FIRST_EXT_ID 32
 
