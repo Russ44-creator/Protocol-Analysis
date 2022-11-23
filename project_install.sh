@@ -49,6 +49,10 @@ then
     echo "on sw_64"
     DPDK_PATH=$DPDK_SW_PATH
     LIBDPDK="/usr/local/lib64/pkgconfig/libdpdk-lib.pc"
+    echo "export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig" >> /etc/profile
+    mkdir -p /dev/hugepages
+    mountpoint -q /dev/hugepages || mount -t hugetlbfs nodev /dev/hugepages
+    echo 512 >/sys/devices/system/node/node0/hugepages/hugepages-8192kB/nr_hugepages
 else
    echo "unsupported arch."
    exit 1
@@ -74,6 +78,7 @@ dpdk_install()
     fi
     cd build
     ninja -j32 && ninja install
+    ldconfig
     echo "$str""dpdk编译安装完成""$str"
 
 }
@@ -104,7 +109,7 @@ Protocolstack_install()
     fi
     ./configure-linux.sh --dpdk --dpdk-home $DPDK_PATH
     # modify PcapPlusPlus.mk
-    sed -i "s@libdpdk@$LIBDPDK@g" mk/PcapPlusPlus.mk 
+    #sed -i "s@libdpdk@$LIBDPDK@g" mk/PcapPlusPlus.mk 
 
     
 
