@@ -33,6 +33,8 @@ then
     DPDK_PATH=$DPDK_ARM_PATH
     echo "/usr/local/lib64" >> /etc/ld.so.conf
     ldconfig
+
+    ldconfig
     ./set_hugepages-arm.sh
 
 elif [ $ARCH == "sw_64" ]
@@ -64,9 +66,9 @@ dpdk_install()
     fi
     if [ $ARCH == "sw_64" ]
     then
-        meson build
+        meson -Dexamples=timer,helloworld,flow_classify,qos_meter build
     else
-        meson -Dmachine=generic build
+        meson -Dexamples=timer,helloworld,flow_classify,qos_meter -Dmachine=generic build
     fi
     cd build
     ninja -j32 && ninja install

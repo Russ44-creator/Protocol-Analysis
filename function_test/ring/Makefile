@@ -10,9 +10,9 @@ SRCS-y := main.c mp_commands.c
 PKGCONF ?= pkg-config
 
 # Build using pkg-config variables if possible
-ifneq ($(shell $(PKGCONF) --exists libdpdk && echo 0),0)
-$(error "no installation of DPDK found")
-endif
+# ifneq ($(shell $(PKGCONF) --exists libdpdk && echo 0),0)
+# $(error "no installation of DPDK found")
+# endif
 
 all: shared
 .PHONY: shared static
