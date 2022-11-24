@@ -51,6 +51,7 @@ then
     DPDK_PATH=$DPDK_SW_PATH
     LIBDPDK="/usr/local/lib64/pkgconfig/libdpdk-lib.pc"
     echo "export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig" >> /etc/profile
+    ldconfig
     mkdir -p /dev/hugepages
     mountpoint -q /dev/hugepages || mount -t hugetlbfs nodev /dev/hugepages
     echo 512 >/sys/devices/system/node/node0/hugepages/hugepages-8192kB/nr_hugepages
