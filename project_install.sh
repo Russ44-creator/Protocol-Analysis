@@ -24,35 +24,27 @@ then
     DPDK_PATH=$DPDK_X86_PATH
     echo "/usr/local/lib/x86_64-linux-gnu/" >> /etc/ld.so.conf
     ldconfig
+    ./set_hugepages-x86.sh
 
-    mkdir -p /dev/hugepages
-    mountpoint -q /dev/hugepages || mount -t hugetlbfs nodev /dev/hugepages
-    echo 1024 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages
 
 elif [ $ARCH == "aarch64" ]
 then
     echo "on arm_64"
     DPDK_PATH=$DPDK_ARM_PATH
     echo "/usr/local/lib64" >> /etc/ld.so.conf
-    mkdir -p /dev/hugepages
-    mountpoint -q /dev/hugepages || mount -t hugetlbfs nodev /dev/hugepages
-    echo 64 > /sys/devices/system/node/node0/hugepages/hugepages-524288kB/nr_hugepages
-    echo 64 > /sys/devices/system/node/node1/hugepages/hugepages-524288kB/nr_hugepages
-    echo 64 > /sys/devices/system/node/node2/hugepages/hugepages-524288kB/nr_hugepages
-    echo 64 > /sys/devices/system/node/node3/hugepages/hugepages-524288kB/nr_hugepages
-    echo 64 > /sys/devices/system/node/node4/hugepages/hugepages-524288kB/nr_hugepages
-    echo 64 > /sys/devices/system/node/node5/hugepages/hugepages-524288kB/nr_hugepages
-
     ldconfig
+    ./set_hugepages-arm.sh
+
 elif [ $ARCH == "sw_64" ]
 then
     echo "on sw_64"
     DPDK_PATH=$DPDK_SW_PATH
     LIBDPDK="/usr/local/lib64/pkgconfig/libdpdk-lib.pc"
     echo "export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig" >> /etc/profile
-    mkdir -p /dev/hugepages
-    mountpoint -q /dev/hugepages || mount -t hugetlbfs nodev /dev/hugepages
-    echo 512 >/sys/devices/system/node/node0/hugepages/hugepages-8192kB/nr_hugepages
+    ldconfig
+    ./set_hugepages-sw.sh
+    
+    
 else
    echo "unsupported arch."
    exit 1
