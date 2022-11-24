@@ -50,6 +50,15 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
 Protocol_Analysis/build/*
 Protocol_Analysis/debug_data_output/*
 Protocol_Analysis/debug_log_output/*
+function_test/flow_classify/build/*
+function_test/helloworld/build/*
+function_test/qos_meter/build/*
+function_test/qos_sched/build/*
+function_test/ring/build/*
+function_test/timer/build/*
+DPDK/dpdk-arm/build*
+DPDK/dpdk-v21.05-sw64/build*
