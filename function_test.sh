@@ -42,6 +42,7 @@ then
     make all
     cd build
     ./helloworld -l 0-3 -n 4
+    echo "EAL功能测试成功"
 elif [ $1x = "-setHugepages"x ]
 then
     ARCH=$(uname -m)
@@ -77,6 +78,7 @@ then
     make all
     cd build
     ./timer -l 0-3 -n 4
+    echo "定时器功能测试成功"
 elif [ $1x = "-ring"x ]
 then
     cd $BASE_PATH/function_test/ring
@@ -86,6 +88,7 @@ then
     echo "   "
     echo "2) cd " $BASE_PATH"/function_test/ring/build &&  ./ring -l 2-3 -n 4 --proc-type=secondary"
     echo "   "
+    
 elif [ $1x = "-classify"x ]
 then
     echo "该项测试需要绑定两个dpdk设备,请确保该条件满足"
@@ -93,66 +96,81 @@ then
     make all
     cd build
     ./flow_classify  -c 4 -n 4 -- --rule_ipv4="../ipv4_rules_file.txt"
+    echo "classify功能测试成功"
 elif [ $1x = "-QOS"x ]
 then
     cd $BASE_PATH/function_test/qos_meter
     make all
     cd build
     ./qos_meter -l 0 -n 4 --proc-type auto -- -p 0x1
+    echo "QOS功能测试成功"
 
 elif [ $1x = "-http"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/1_http_packet.pcap
+    echo "http会话管理功能测试成功"
 
 elif [ $1x = "-ssl"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/SSL.pcapng
+    echo "ssl会话管理功能测试成功"
 elif [ $1x = "-ip"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/SSL.pcapng
+    echo "IP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-tcp"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/TCP.pcapng
+    echo "TCP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-udp"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/UDP.pcapng
+    echo "UDP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-egp"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/EGP.pcapng
+    echo "EGP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-igp"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/IGP.pcapng
+    echo "IGP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-gre"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/gre.pcapng
+    echo "GRE会话分解与重组子模块功能测试成功"
 elif [ $1x = "-l2tp"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/L2TP.pcapng
+    echo "L2TP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-sctp"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/SCTP.pcapng
+    echo "SCTP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-gtp"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/GTPv1.pcapng
+    echo "GTP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-app"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/visualcode.pcapng
+    echo "特定应用数据包识别测试成功"
 elif [ $1x = "-diy"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/diypackage.cap.gz
+    echo "自定义格式数据包识别测试成功"
 elif [ $1x = "-ports"x ]
 then
     dpdk-devbind.py  --status 
