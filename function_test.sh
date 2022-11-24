@@ -147,6 +147,11 @@ then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/gre.pcapng
     echo "GRE会话分解与重组子模块功能测试成功"
+elif [ $1x = "-esp"x ]
+then
+    cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
+    ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/ESP.pcapng
+    echo "ESP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-l2tp"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
@@ -160,7 +165,7 @@ then
 elif [ $1x = "-gtp"x ]
 then
     cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
-    ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/GTPv1.pcapng
+    ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/GTPv2.pcapng
     echo "GTP会话分解与重组子模块功能测试成功"
 elif [ $1x = "-app"x ]
 then
@@ -175,6 +180,12 @@ then
 elif [ $1x = "-ports"x ]
 then
     dpdk-devbind.py  --status 
+elif [ $1x = "-tuple"x ]
+then
+    cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
+    ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/SSL.pcapng
+    ls *.txt
+    echo "查看五元组测试成功"
 else
     echo $1
     print_usage

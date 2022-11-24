@@ -32,9 +32,10 @@ then
     echo "on arm_64"
     DPDK_PATH=$DPDK_ARM_PATH
     echo "/usr/local/lib64" >> /etc/ld.so.conf
+    echo "export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig" >> /etc/profile
+    source /etc/profile
     ldconfig
 
-    ldconfig
     ./set_hugepages-arm.sh
 
 elif [ $ARCH == "sw_64" ]
@@ -43,6 +44,7 @@ then
     DPDK_PATH=$DPDK_SW_PATH
     LIBDPDK="/usr/local/lib64/pkgconfig/libdpdk-lib.pc"
     echo "export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig" >> /etc/profile
+    source /etc/profile
     ldconfig
     ./set_hugepages-sw.sh
     
