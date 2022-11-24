@@ -34,6 +34,7 @@ then
     echo "on arm_64"
     DPDK_PATH=$DPDK_ARM_PATH
     echo "/usr/local/lib64" >> /etc/ld.so.conf
+    ldconfig
     mkdir -p /dev/hugepages
     mountpoint -q /dev/hugepages || mount -t hugetlbfs nodev /dev/hugepages
     echo 64 > /sys/devices/system/node/node0/hugepages/hugepages-524288kB/nr_hugepages
@@ -53,6 +54,7 @@ then
     mkdir -p /dev/hugepages
     mountpoint -q /dev/hugepages || mount -t hugetlbfs nodev /dev/hugepages
     echo 512 >/sys/devices/system/node/node0/hugepages/hugepages-8192kB/nr_hugepages
+    echo 512 >/sys/devices/system/node/node1/hugepages/hugepages-8192kB/nr_hugepages
 else
    echo "unsupported arch."
    exit 1
@@ -72,9 +74,9 @@ dpdk_install()
     fi
     if [ $ARCH == "sw_64" ]
     then
-        meson build
+        meson -Dexamples=timer,helloworld,flow_classify,qos_meter build
     else
-        meson -Dmachine=generic build
+        meson -Dexamples=timer,helloworld,flow_classify,qos_meter -Dmachine=generic build
     fi
     cd build
     ninja -j32 && ninja install
