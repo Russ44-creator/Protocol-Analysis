@@ -61,4 +61,5 @@ function_test/qos_sched/build/*
 function_test/ring/build/*
 function_test/timer/build/*
 DPDK/dpdk-arm/build*
-DPDK/dpdk-v21.05-sw64/build*
+DPDK/dpdk-v21.05-sw64/build/*
+PcapPlusPlus/Examples/ProtocolAnalysis/Bin/*
