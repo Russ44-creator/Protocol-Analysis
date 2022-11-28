@@ -24,6 +24,7 @@ print_usage()
     echo "  -diy            20.验证自定义格式数据包是否正常识别 "
     echo "  -ports          21.查看网卡绑定状态"
     echo "  -tuple          22.查看ip五元组"
+    echo "  -pcap           23. pcap文件格式验证"
 
 
 }
@@ -186,6 +187,12 @@ then
     ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/SSL.pcapng
     ls *.txt
     echo "查看五元组测试成功"
+elif [ $1x = "-pcap"x ]
+then
+    cd $BASE_PATH/PcapPlusPlus/Examples/ProtocolAnalysis/Bin
+    ./ProtocolAnalysis  $BASE_PATH/pcap测试网络包/test.pcap
+    ls *.txt
+    echo "pcap文件测试成功"
 else
     echo $1
     print_usage
