@@ -12,6 +12,7 @@ Protocol_Analysis_PATH="$BASE_PATH/Protocol_Analysis"
 Yaml_PATH="$BASE_PATH/yaml-cpp-yaml-cpp-0.7.0"
 igb_uio_PATH="$BASE_PATH/dpdk-kmods-main/linux/igb_uio"
 SERVICE_PATH="/etc/systemd/system"
+rpms="$BASE_PATH/rpms"
 str="========================"
 
 LIBDPDK="libdpdk"
@@ -24,6 +25,7 @@ then
     DPDK_PATH=$DPDK_X86_PATH
     echo "/usr/local/lib/x86_64-linux-gnu/" >> /etc/ld.so.conf
     ldconfig
+    chmod +x set_hugepages-x86.sh
     ./set_hugepages-x86.sh
 
 
@@ -35,7 +37,7 @@ then
     echo "export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig" >> /etc/profile
     source /etc/profile
     ldconfig
-
+    chmod +x set_hugepages-arm.sh
     ./set_hugepages-arm.sh
 
 elif [ $ARCH == "sw_64" ]
@@ -46,6 +48,7 @@ then
     echo "export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig" >> /etc/profile
     source /etc/profile
     ldconfig
+    chmod +x set_hugepages-sw.sh
     ./set_hugepages-sw.sh
     
     
@@ -53,6 +56,45 @@ else
    echo "unsupported arch."
    exit 1
 fi
+
+
+install_requirements(){
+
+    echo "$str""安装软件依赖包""$str"
+    rpmsdir=""
+    if [ $ARCH == "sw_64" ]
+    then
+        rpmsdir="申威依赖包"
+    elif [ $ARCH == "aarch64" ]
+    then
+        rpmsdir="飞腾依赖包"
+    else
+    echo "x86系统请直接在线安装依赖包"
+    exit 1
+    fi
+    #rpmsdir="飞腾依赖包"
+    # install rpm packages
+    for i in `ls $rpms/$rpmsdir`
+    do
+        if [ ${i##*.} = 'rpm' ]
+        then
+            echo "安装包$i"
+            rpm -ivh $i
+        fi
+    done
+    # install python packages
+    for i in `ls $rpms/$rpmsdir`
+    do
+        if [ ${i##*.} = 'whl' ]
+        then
+            echo "安装包$i"
+            pip3 install $i
+        fi
+    done
+
+}
+
+
 
 
 dpdk_install()
@@ -78,6 +120,9 @@ dpdk_install()
     echo "$str""dpdk编译安装完成""$str"
 
 }
+
+
+
 
 dpdk_uninstall()
 {
@@ -215,6 +260,7 @@ print_usage()
     echo "  -install   安装dpdk,Protocolstack,Yaml,Protocol_Analysis"
     echo "  -uninstall 卸载dpdk,Protocolstack,Yaml,Protocol_Analysis"
     echo "  -insmod    插入igb_uio.ko "
+    echo "  -install_rpms    安装系统需要依赖软件"
 }
 
 
@@ -238,6 +284,9 @@ then
     Protocolstack_uninstall
     yaml_unstall
     service_uninstall
+elif [ $1x = "-install_rpms"x ]
+then
+    install_requirements
 elif [ $1x = "-insmod"x ]
 then
     insmod_uio

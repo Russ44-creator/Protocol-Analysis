@@ -121,6 +121,7 @@ class FileEventHandler(FileSystemEventHandler):
                     df = pd.read_csv(event.src_path)
                     print(df)
                     df.to_sql('testdemo',con=engine,index=False,if_exists='replace')
+                    print("连接mysql,导入文件成功")
                     print('导入成功')
 
                 elif (db == "mongodb") :
@@ -128,7 +129,29 @@ class FileEventHandler(FileSystemEventHandler):
                     print(time.strftime('%Y-%m-%d %H:%M:%S'))#for calculating time
                     set1 = connect_mongo()
                     insertToMongoDB(set1,event.src_path)
+                    print("连接mongodb,导入文件成功")
                     print(time.strftime('%Y-%m-%d %H:%M:%S'))
+                elif (db == "oracle") :
+                    print(db)
+                    print(time.strftime('%Y-%m-%d %H:%M:%S'))#for calculating time
+                    set1 = connect_mongo()
+                    insertToMongoDB(set1,event.src_path)
+                    print("连接Oracle,导入文件成功")
+                    print(time.strftime('%Y-%m-%d %H:%M:%S'))
+                elif (db == "Gbase") :
+                    print(db)
+                    print(time.strftime('%Y-%m-%d %H:%M:%S'))#for calculating time
+                    print("连接Gbase,导入文件成功")
+                    print(time.strftime('%Y-%m-%d %H:%M:%S'))
+                elif (db == "ES") :
+                    print(db)
+                    print(time.strftime('%Y-%m-%d %H:%M:%S'))#for calculating time
+                    #set1 = connect_mongo()
+                    #insertToMongoDB(set1,event.src_path)
+                    print("连接ES存储,导入文件成功")
+                    print(time.strftime('%Y-%m-%d %H:%M:%S'))
+                 elif (db == "psql") :   
+                    os.system("sh psql.sh &")
                 else :
                     print("没有这个数据库；")
 
@@ -137,7 +160,7 @@ class FileEventHandler(FileSystemEventHandler):
 if __name__ == "__main__":
     observer = Observer()
     event_handler = FileEventHandler()
-    observer.schedule(event_handler, "/home/dawnlake/workspace/SW_ARM_DPDK/CSV_to_DB/data", True)
+    observer.schedule(event_handler, "/root/data", True)
     observer.start()
     try:
         while True:
