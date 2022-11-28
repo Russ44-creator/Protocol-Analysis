@@ -150,6 +150,8 @@ class FileEventHandler(FileSystemEventHandler):
                     #insertToMongoDB(set1,event.src_path)
                     print("连接ES存储,导入文件成功")
                     print(time.strftime('%Y-%m-%d %H:%M:%S'))
+                 elif (db == "psql") :   
+                    os.system("sh psql.sh &")
                 else :
                     print("没有这个数据库；")
 
