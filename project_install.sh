@@ -44,6 +44,8 @@ elif [ $ARCH == "sw_64" ]
 then
     echo "on sw_64"
     DPDK_PATH=$DPDK_SW_PATH
+    echo "/usr/local/lib64" >> /etc/ld.so.conf
+    ldconfig
     LIBDPDK="/usr/local/lib64/pkgconfig/libdpdk-lib.pc"
     echo "export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig" >> /etc/profile
     source /etc/profile
