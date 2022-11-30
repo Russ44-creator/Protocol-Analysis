@@ -13,6 +13,7 @@ Yaml_PATH="$BASE_PATH/yaml-cpp-yaml-cpp-0.7.0"
 igb_uio_PATH="$BASE_PATH/dpdk-kmods-main/linux/igb_uio"
 SERVICE_PATH="/etc/systemd/system"
 rpms="$BASE_PATH/rpms"
+dbimport="$BASE_PATH/CSV_to_DB"
 str="========================"
 
 LIBDPDK="libdpdk"
@@ -52,8 +53,6 @@ then
     ldconfig
     chmod +x set_hugepages-sw.sh
     ./set_hugepages-sw.sh
-    
-    
 else
    echo "unsupported arch."
    exit 1
@@ -81,7 +80,7 @@ install_requirements(){
         if [ ${i##*.} = 'rpm' ]
         then
             echo "安装包$i"
-            rpm -ivh $i
+            rpm -ivh $rpms/$rpmsdir/$i
         fi
     done
     # install python packages
@@ -90,7 +89,7 @@ install_requirements(){
         if [ ${i##*.} = 'whl' ]
         then
             echo "安装包$i"
-            pip3 install $i
+            pip3 install $rpms/$rpmsdir/$i
         fi
     done
 
@@ -153,11 +152,6 @@ Protocolstack_install()
     ./configure-linux.sh --dpdk --dpdk-home $DPDK_PATH
     # modify PcapPlusPlus.mk
     #sed -i "s@libdpdk@$LIBDPDK@g" mk/PcapPlusPlus.mk 
-
-    
-
-    
-
     make clean
     make all -j8
     make install
@@ -237,13 +231,23 @@ insmod_uio()
 }
 
 service_install()
-{
-    echo "$str""安装service""$str"
+{   
+    #构建DPDK service
+    echo "$str""安装DPDK service""$str"
     cp $BASE_PATH/analysisd.service.template $BASE_PATH/analysisd.service
     sed -i "s@<execute-start>@$Protocol_Analysis_PATH/build/Protocol_Analysis@g" $BASE_PATH/analysisd.service
     # sed -i "s@<config-file>@$Protocol_Analysis_PATH/config.ini@g" $BASE_PATH/analysisd.service
     
     mv $BASE_PATH/analysisd.service ${SERVICE_PATH}/
+
+    #构建python导入数据库service
+    echo "$str""安装数据库导入service""$str"
+    cp $BASE_PATH/analysisd.service.template $BASE_PATH/importdbd.service
+    sed -i "s@<execute-start>@$dbimport/import_db.py@g" $BASE_PATH/importdbd.service
+    # sed -i "s@<config-file>@$Protocol_Analysis_PATH/config.ini@g" $BASE_PATH/analysisd.service
+    
+    mv $BASE_PATH/importdbd.service ${SERVICE_PATH}/
+
     echo "$str""service安装完成""$str"
 }
 
@@ -294,5 +298,6 @@ then
     insmod_uio
 else
     echo $1
+    service_install
     print_usage
 fi
