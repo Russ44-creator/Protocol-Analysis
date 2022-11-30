@@ -162,7 +162,8 @@ class FileEventHandler(FileSystemEventHandler):
 if __name__ == "__main__":
     observer = Observer()
     event_handler = FileEventHandler()
-    observer.schedule(event_handler, "/root", True)
+    dbdir = getConfig("/etc/config.ini", 'DB', 'dbdir')
+    observer.schedule(event_handler, dbdir, True)
     observer.start()
     try:
         while True:

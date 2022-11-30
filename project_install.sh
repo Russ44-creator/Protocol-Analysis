@@ -210,6 +210,9 @@ Protocol_Analysis_install()
     echo "$str""编译安装Protocol_Analysis""$str"
     cp $Protocolstack_PATH/mk/PcapPlusPlus.mk /usr/local/etc/
     cd $Protocol_Analysis_PATH
+    if [ ! -d "build" ]; then
+    mkdir build
+    fi
     if [ $ARCH != "x86_64" ]
     then
         sed -i 's/-static-libstdc++/-lstdc++/g'  Makefile
@@ -243,7 +246,8 @@ service_install()
     #构建python导入数据库service
     echo "$str""安装数据库导入service""$str"
     cp $BASE_PATH/analysisd.service.template $BASE_PATH/importdbd.service
-    sed -i "s@<execute-start>@$dbimport/import_db.py@g" $BASE_PATH/importdbd.service
+    cp database.ini  /etc/
+    sed -i "s@<execute-start>@python3 $dbimport/import_db.py@g" $BASE_PATH/importdbd.service
     # sed -i "s@<config-file>@$Protocol_Analysis_PATH/config.ini@g" $BASE_PATH/analysisd.service
     
     mv $BASE_PATH/importdbd.service ${SERVICE_PATH}/
@@ -298,6 +302,5 @@ then
     insmod_uio
 else
     echo $1
-    service_install
     print_usage
 fi
