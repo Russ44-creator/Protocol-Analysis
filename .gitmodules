@@ -1,7 +1,9 @@
 [submodule "Protocol_Analysis"]
 	path = Protocol_Analysis
+	branch = stable
 	url = https://gitee.com/zhang-hanze/Protocol_Analysis.git
 
 [submodule "PcapPlusPlus"]
 	path = PcapPlusPlus
+	branch = stable
 	url = https://gitee.com/yuchenyao/PcapPlusPlus.git

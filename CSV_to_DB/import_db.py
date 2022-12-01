@@ -3,11 +3,11 @@ import time
 
 from watchdog.events import *
 from watchdog.observers import Observer
-from sqlalchemy import create_engine, types
+
 import os
 import configparser
 
-from pymongo import MongoClient
+
 import csv
 
 import re
@@ -113,7 +113,8 @@ class FileEventHandler(FileSystemEventHandler):
                 print("不是csv文件")
             else:
                 #2. 判断是哪个数据库
-                db = getConfig("config.ini", 'DB', 'db')
+                from sqlalchemy import create_engine, types
+                db = getConfig("config.ini", 'DATABASE', 'db')
                 print(db)
                 if (db == "mysql") :
                     pymysql.install_as_MySQLdb()
@@ -127,6 +128,7 @@ class FileEventHandler(FileSystemEventHandler):
                     print('导入成功')
 
                 elif (db == "mongodb") :
+                    from pymongo import MongoClient
                     print(db)
                     print(time.strftime('%Y-%m-%d %H:%M:%S'))#for calculating time
                     set1 = connect_mongo()
@@ -162,7 +164,7 @@ class FileEventHandler(FileSystemEventHandler):
 if __name__ == "__main__":
     observer = Observer()
     event_handler = FileEventHandler()
-    dbdir = getConfig("/etc/config.ini", 'DB', 'dbdir')
+    dbdir = getConfig("/etc/config.ini", 'DATABASE', 'csvPath')
     observer.schedule(event_handler, dbdir, True)
     observer.start()
     try:
