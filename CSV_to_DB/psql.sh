@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HostIP="ceres@10.10.33.45"
+HostIP="ceres@10.10.33.44"
 dpasswd="cddb@021"
 
 files=$1

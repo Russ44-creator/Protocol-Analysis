@@ -114,7 +114,7 @@ class FileEventHandler(FileSystemEventHandler):
             else:
                 #2. 判断是哪个数据库
                 from sqlalchemy import create_engine, types
-                db = getConfig("config.ini", 'DATABASE', 'db')
+                db = getConfig("/etc/database.ini", 'DATABASE', 'type')
                 print(db)
                 if (db == "mysql") :
                     pymysql.install_as_MySQLdb()
@@ -155,7 +155,7 @@ class FileEventHandler(FileSystemEventHandler):
                     print("连接ES存储,导入文件成功")
                     print(time.strftime('%Y-%m-%d %H:%M:%S'))
                 elif (db == "psql") :   
-                    os.system("sh psql.sh &")
+                    os.system("sh psql.sh event.src_path")
                 else :
                     print("没有这个数据库；")
 
@@ -164,7 +164,10 @@ class FileEventHandler(FileSystemEventHandler):
 if __name__ == "__main__":
     observer = Observer()
     event_handler = FileEventHandler()
-    dbdir = getConfig("/etc/config.ini", 'DATABASE', 'csvPath')
+    dbdir = getConfig("/etc/database.ini", 'DATABASE', 'csvPath')
+    db = getConfig("/etc/database.ini", 'DATABASE', 'type')
+    print("当前选择的数据库:",db)
+    print("当前选择的csv路径:",dbdir)
     observer.schedule(event_handler, dbdir, True)
     observer.start()
     try:
