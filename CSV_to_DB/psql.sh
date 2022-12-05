@@ -4,6 +4,7 @@ HostIP="ceres@10.10.33.44"
 dpasswd="cddb@021"
 
 files=$1
+dbtable = $2
 import_csv_to_psql(){
 /usr/bin/expect << EOF
 spawn ssh   $HostIP
@@ -24,7 +25,7 @@ sleep 1
 
 send "psql -d DPDK -U ceres\r"
 sleep 1
-send "COPY test from '/home/ceres/$files' WITH DELIMITER ',' NULL AS '' CSV HEADER QUOTE AS '|';\r"; 
+send "COPY $dbtable from '/home/ceres/$files' WITH DELIMITER ',' NULL AS '' CSV HEADER QUOTE AS '|';\r"; 
 expect eof
 EOF
 }

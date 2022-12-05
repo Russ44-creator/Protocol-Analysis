@@ -1,18 +1,11 @@
 #/bin/python3
 import time
-
 from watchdog.events import *
 from watchdog.observers import Observer
-
 import os
 import configparser
-
-
 import csv
-
 import re
-
-
 import pymysql
 
 def connect_mongo():
@@ -118,7 +111,7 @@ class FileEventHandler(FileSystemEventHandler):
                 print(db)
                 if (db == "mysql") :
                     pymysql.install_as_MySQLdb()
-                    engine = create_engine('mysql://root:q@localhost:3306/test')
+                    engine = create_engine('mysql://root:database@localhost:3306/test')
                     print(db)
                     import pandas as pd
                     df = pd.read_csv(event.src_path)
@@ -155,7 +148,9 @@ class FileEventHandler(FileSystemEventHandler):
                     print("连接ES存储,导入文件成功")
                     print(time.strftime('%Y-%m-%d %H:%M:%S'))
                 elif (db == "psql") :   
-                    os.system("sh psql.sh event.src_path")
+                    db = getConfig("/etc/database.ini", 'DATABASE', 'type')
+                    dbtable = getConfig("/etc/database.ini", 'DATABASE', 'table')
+                    os.system("sh psql.sh %s  %s"%(event.src_path,dbtable))
                 else :
                     print("没有这个数据库；")
 
@@ -166,8 +161,10 @@ if __name__ == "__main__":
     event_handler = FileEventHandler()
     dbdir = getConfig("/etc/database.ini", 'DATABASE', 'csvPath')
     db = getConfig("/etc/database.ini", 'DATABASE', 'type')
+    dbtable = getConfig("/etc/database.ini", 'DATABASE', 'table')
     print("当前选择的数据库:",db)
     print("当前选择的csv路径:",dbdir)
+    print("当前选择的数据库表为:",dbtable)
     observer.schedule(event_handler, dbdir, True)
     observer.start()
     try:
