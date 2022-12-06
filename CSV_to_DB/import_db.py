@@ -166,7 +166,7 @@ if __name__ == "__main__":
     print("当前选择的数据库:",db)
     print("当前选择的csv路径:",dbdir)
     print("当前选择的数据库表为:",dbtable)
-    istable=os.system("ssh ceres@10.10.33.44 \"source /etc/profile;psql -d %s -U ceres\""%(dbtable))
+    istable=os.system("sh table.sh %s"%(dbtable))
     if(istable!=0):
         print("数据库表不存在!")
         exit(0)
