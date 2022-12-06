@@ -6,7 +6,7 @@ import os
 import configparser
 import csv
 import re
-import pymysql
+
 
 def connect_mongo():
     # mongo_uri = 'mongodb://user_name:password@host:port/Validate the database'
@@ -110,6 +110,7 @@ class FileEventHandler(FileSystemEventHandler):
                 db = getConfig("/etc/database.ini", 'DATABASE', 'type')
                 print(db)
                 if (db == "mysql") :
+                    import pymysql
                     pymysql.install_as_MySQLdb()
                     engine = create_engine('mysql://root:database@localhost:3306/test')
                     print(db)
