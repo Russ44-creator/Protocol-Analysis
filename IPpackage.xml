@@ -1,0 +1,6 @@
+<collection shelf="IPPackage">
+<IP title="pcap">
+   <type>GTPv1</type>
+   <path>/root/SW_ARM_DPDK/pcap测试网络包/GTPv1.pcapng</path>
+</IP>
+</collection>

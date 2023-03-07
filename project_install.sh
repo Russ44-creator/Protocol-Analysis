@@ -283,11 +283,11 @@ fi
 
 if [ $1x = "-install"x ]
 then
-    dpdk_install
-    Protocolstack_install
-    yaml_install
+    #dpdk_install
+    #Protocolstack_install
+    #yaml_install
     Protocol_Analysis_install
-    service_install
+    #service_install
 elif [ $1x = "-uninstall"x ]
 then
     dpdk_uninstall

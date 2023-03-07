@@ -63,3 +63,7 @@ function_test/timer/build/*
 DPDK/dpdk-arm/build*
 DPDK/dpdk-v21.05-sw64/build/*
 PcapPlusPlus/Examples/ProtocolAnalysis/Bin/*
+
+pcap测试网络包
+*.tar.xz
+*.tar.gz

@@ -1,15 +1,18 @@
-#include <linux/build-salt.h>
 #include <linux/module.h>
+#define INCLUDE_VERMAGIC
+#include <linux/build-salt.h>
+#include <linux/elfnote-lto.h>
 #include <linux/vermagic.h>
 #include <linux/compiler.h>
 
 BUILD_SALT;
+BUILD_LTO_INFO;
 
 MODULE_INFO(vermagic, VERMAGIC_STRING);
 MODULE_INFO(name, KBUILD_MODNAME);
 
 __visible struct module __this_module
-__attribute__((section(".gnu.linkonce.this_module"))) = {
+__section(".gnu.linkonce.this_module") = {
 	.name = KBUILD_MODNAME,
 	.init = init_module,
 #ifdef CONFIG_MODULE_UNLOAD
@@ -23,68 +26,61 @@ MODULE_INFO(retpoline, "Y");
 #endif
 
 static const struct modversion_info ____versions[]
-__used
-__attribute__((section("__versions"))) = {
-	{ 0x53bb3368, "module_layout" },
-	{ 0xed5cb102, "param_ops_charp" },
-	{ 0x80ee8389, "param_ops_int" },
-	{ 0x61563de2, "pci_unregister_driver" },
-	{ 0x5050de18, "__pci_register_driver" },
+__used __section("__versions") = {
+	{ 0x32e21920, "module_layout" },
+	{ 0x961710e2, "param_ops_charp" },
+	{ 0x59d2a97, "param_ops_int" },
+	{ 0x233f929e, "pci_unregister_driver" },
+	{ 0xf2bb7d9, "__pci_register_driver" },
 	{ 0xe2d5255a, "strcmp" },
-	{ 0x7c32d0f0, "printk" },
-	{ 0xe8f597ec, "_dev_warn" },
-	{ 0x6b4b2933, "__ioremap" },
-	{ 0xa58e3cf4, "cpu_hwcaps" },
-	{ 0x20691e02, "dummy_dma_ops" },
-	{ 0x66cfa968, "cpu_hwcap_keys" },
-	{ 0x6dfb912f, "arm64_const_caps_ready" },
-	{ 0xa82bd70c, "dma_release_from_dev_coherent" },
-	{ 0xdcb764ad, "memset" },
-	{ 0x41291c8, "dma_alloc_from_dev_coherent" },
-	{ 0xc45d5599, "__uio_register_device" },
-	{ 0x40c78b01, "sysfs_create_group" },
-	{ 0xc5623a8e, "pci_enable_device" },
-	{ 0x6d469e0e, "kmem_cache_alloc_trace" },
-	{ 0x65feec7, "kmalloc_caches" },
-	{ 0xb68ce8ad, "pci_msi_unmask_irq" },
-	{ 0x87119a24, "pci_intx" },
-	{ 0x3fe3d93c, "pci_msi_mask_irq" },
-	{ 0xff773214, "pci_cfg_access_unlock" },
-	{ 0xcd5d1fb5, "pci_cfg_access_lock" },
-	{ 0xcab88f90, "irq_get_irq_data" },
-	{ 0xe0e21730, "__dynamic_dev_dbg" },
-	{ 0xf9a3efb9, "__ll_sc_atomic_sub" },
-	{ 0xc4dd0573, "_dev_err" },
-	{ 0xae3d1e4c, "_dev_notice" },
-	{ 0x5c6dd736, "_dev_info" },
-	{ 0xd6b8e852, "request_threaded_irq" },
-	{ 0x72675ba8, "pci_irq_vector" },
-	{ 0xa5eacf36, "pci_alloc_irq_vectors_affinity" },
-	{ 0x4699a843, "pci_set_master" },
-	{ 0x7c97c8a4, "__ll_sc_atomic_add_return" },
-	{ 0xb64d6fd9, "pci_check_and_mask_intx" },
-	{ 0xc6b14caa, "uio_event_notify" },
+	{ 0x92997ed8, "_printk" },
+	{ 0x8026b975, "_dev_warn" },
+	{ 0xde80cd09, "ioremap" },
+	{ 0x87cec3d1, "dma_free_attrs" },
+	{ 0x1d0107ac, "dma_alloc_attrs" },
+	{ 0xb9a2da75, "__uio_register_device" },
+	{ 0xdda5fd5d, "sysfs_create_group" },
+	{ 0x35b97737, "dma_set_coherent_mask" },
+	{ 0x7eae295f, "dma_set_mask" },
+	{ 0x8d929026, "pci_enable_device" },
+	{ 0xf35141b2, "kmem_cache_alloc_trace" },
+	{ 0x26087692, "kmalloc_caches" },
+	{ 0xbbc0ee83, "pci_msi_unmask_irq" },
+	{ 0x726fd5db, "pci_intx" },
+	{ 0xc3a218a0, "pci_msi_mask_irq" },
+	{ 0xe66b5734, "pci_cfg_access_unlock" },
+	{ 0x129c249f, "pci_cfg_access_lock" },
+	{ 0x2dc7fc5c, "irq_get_irq_data" },
+	{ 0xf45444c3, "_dev_err" },
+	{ 0x9d7fe465, "__dynamic_dev_dbg" },
+	{ 0x696f32fb, "pci_irq_vector" },
+	{ 0x5f49d55d, "pci_alloc_irq_vectors_affinity" },
+	{ 0xf885e4ab, "_dev_info" },
+	{ 0x92d5838e, "request_threaded_irq" },
+	{ 0x1e323c29, "pci_set_master" },
+	{ 0x4b4a2767, "pci_check_and_mask_intx" },
+	{ 0xef51fc28, "uio_event_notify" },
+	{ 0x87a21cb3, "__ubsan_handle_out_of_bounds" },
 	{ 0x37a0cba, "kfree" },
-	{ 0xd3f74c5c, "pci_disable_device" },
-	{ 0x45a55ec8, "__iounmap" },
-	{ 0x909ce75e, "uio_unregister_device" },
-	{ 0x1c260d12, "sysfs_remove_group" },
-	{ 0xdabe88cc, "pci_free_irq_vectors" },
+	{ 0xfb14ff3c, "pci_disable_device" },
+	{ 0xedc03953, "iounmap" },
+	{ 0x7307c63a, "uio_unregister_device" },
+	{ 0x4ca7c5e3, "sysfs_remove_group" },
+	{ 0x822531c7, "pci_free_irq_vectors" },
 	{ 0xc1514a3b, "free_irq" },
-	{ 0x8a1e4c50, "pci_clear_master" },
-	{ 0xec2ac905, "__ll_sc_atomic_sub_return" },
-	{ 0x28318305, "snprintf" },
-	{ 0x20363294, "pci_enable_sriov" },
-	{ 0xe10b1d23, "pci_disable_sriov" },
-	{ 0x4bdf7a36, "pci_num_vf" },
-	{ 0x60ea2d6, "kstrtoull" },
-	{ 0x1fdc7df2, "_mcount" },
+	{ 0xec6bfac, "pci_clear_master" },
+	{ 0x656e4a6e, "snprintf" },
+	{ 0x65487097, "__x86_indirect_thunk_rax" },
+	{ 0xd0da656b, "__stack_chk_fail" },
+	{ 0xd80f667b, "pci_enable_sriov" },
+	{ 0x20d77385, "pci_disable_sriov" },
+	{ 0x5b8239ca, "__x86_return_thunk" },
+	{ 0xda7f52f2, "pci_num_vf" },
+	{ 0x5c3c7387, "kstrtoull" },
+	{ 0xbdfb6dbb, "__fentry__" },
 };
 
-static const char __module_depends[]
-__used
-__attribute__((section(".modinfo"))) =
-"depends=uio";
+MODULE_INFO(depends, "uio");
 
 
-MODULE_INFO(srcversion, "40C295CA132DDB145352055");
+MODULE_INFO(srcversion, "765AF497792C1DC055882BF");
