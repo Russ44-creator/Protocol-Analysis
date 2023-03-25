@@ -76,5 +76,6 @@
         "typeindex": "cpp",
         "typeinfo": "cpp"
     },
-    "C_Cpp.dimInactiveRegions": false
+    "C_Cpp.dimInactiveRegions": false,
+    "cmake.sourceDirectory": "${workspaceFolder}/PcapPlusPlus/3rdParty/LightPcapNg"
 }
