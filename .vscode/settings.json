@@ -74,7 +74,8 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeindex": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "hash_map": "cpp"
     },
     "C_Cpp.dimInactiveRegions": false,
     "cmake.sourceDirectory": "${workspaceFolder}/PcapPlusPlus/3rdParty/LightPcapNg"
